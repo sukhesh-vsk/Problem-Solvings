@@ -27,7 +27,7 @@ Explanation: The binary representation of 6 is "110".
 
 */
 
-class Solution {
+class MinOperationsBits {
     public int minimumOneBitOperations(int n) {
         n ^= n>>16;
         n ^= n>>8;
