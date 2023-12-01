@@ -18,3 +18,9 @@ Input: word1 = ["a", "cb"], word2 = ["ab", "c"]
 Output: false
 
 */
+
+class Solution {
+    public boolean arrayStringsAreEqual(String[] word1, String[] word2) {
+        return String.join("", word1).equals(String.join("", word2));
+    }
+}
