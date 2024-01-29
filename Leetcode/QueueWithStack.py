@@ -37,17 +37,19 @@ At most 100 calls will be made to push, pop, peek, and empty.
 All the calls to pop and peek are valid.
 '''
 
-
-
 class MyQueue:
 
     def __init__(self):
-        self.s1 = []
+        self.temp = []
         self.s2 = []
 
     def push(self, x: int) -> None:
-        self.s1.append(x)
-        self.s2 = self.s1[::-1]
+        while(self.s2):
+            self.temp.append(self.s2.pop())
+        self.s2.append(x)
+        while(self.temp):
+            self.s2.append(self.temp.pop())
+
 
     def pop(self) -> int:
         return self.s2.pop()
