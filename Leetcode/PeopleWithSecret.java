@@ -23,6 +23,42 @@ Thus, people 0, 1, 2, 3, and 5 know the secret after all the meetings.
 
 class Solution {
     public List<Integer> findAllPeople(int n, int[][] meetings, int firstPerson) {
-        
+        Map<Integer, List<int []>> adj = new HashMap<>();
+        for(int [] meet : meetings){
+            int x = meet[0], y = meet[1], t = meet[2];
+            adj.computeIfAbsent(x, k -> new ArrayList<>()).add(new int [] {t, y});
+            adj.computeIfAbsent(y, k -> new ArrayList<>()).add(new int [] {t, x});
+        }
+
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] - b[0]);
+        pq.offer(new int [] {0, 0});
+        pq.offer(new int [] {0, firstPerson});
+
+        boolean [] vis = new boolean[n];
+
+        while(!pq.isEmpty()) {
+            int [] curr = pq.poll();
+            int time = curr[0], p = curr[1];
+            if(vis[p]) {
+                continue;
+            }
+
+            vis[p] = true;
+            for(int [] nxtPer : adj.getOrDefault(p, new ArrayList<>())) {
+                int t = nxtPer[0], next = nxtPer[1];
+                if(!vis[next] && t >= time) {
+                    pq.offer(new int [] {t, next});
+                }
+            }
+        }
+
+        List<Integer> result = new ArrayList<>();
+        for(int i=0; i<n; i++){
+            if(vis[i]) {
+                result.add(i);
+            }
+        }
+        return result;
     }
+
 }
